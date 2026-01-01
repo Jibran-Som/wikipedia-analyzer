@@ -9,10 +9,21 @@ def remove_non_letters(input_string):
 
 
 url = "https://en.wikipedia.org/wiki/University_of_Calgary" 
+
+headers = {
+    "User-Agent": "Mozilla/5.0 (compatible; WebAnalyzer/1.0)"
+}
+
 try: 
-    response = requests.get(url) 
-    response.raise_for_status()  # Ensures the request was successful 
-    soup = BeautifulSoup(response.text, 'html.parser') 
+    response = requests.get(url, headers=headers, timeout=10)
+    response.raise_for_status()
+
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    num_of_h1 = len(soup.find_all("h1"))
+    print("Number of h1 tags:", num_of_h1)
+
+
     print(f"Successfully fetched content from {url}") 
 except Exception as e: 
     print(f"Error fetching content: {e}")
@@ -95,4 +106,4 @@ bar_colors = ['tab:blue', 'tab:green', 'tab:red']
 plt.bar(labels, values, color=bar_colors)
 plt.title('Group 13')
 plt.ylabel('Count')
-plt.show()
+plt.savefig("output.png")
